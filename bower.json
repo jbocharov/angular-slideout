@@ -2,7 +2,7 @@
   "name": "angular-slideout",
   "description": "Reuseable AngularJS directives for creating an iOS7-style slideout sidebar.",
   "main": "dist/angular-slideout.js",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "dependencies": {}
 }
 
