@@ -1,3 +1,4 @@
+(function (window, angular, undefined) {
 'use strict';
 
 /** (this is an early concept)
@@ -11,7 +12,7 @@
   *   <slideout-main-content></slideout-main-content>
   * </slideout-container>
   */
-angular.module(angular.my ? angular.my('Directives') : 'SlideoutDirectives')
+angular.module('slideoutDirectives', ['ng'])
   .directive('slideoutContainer', ['SlideoutRegistryService',
     function (SlideoutRegistryService) {
     return {
@@ -177,3 +178,4 @@ angular.module(angular.my ? angular.my('Directives') : 'SlideoutDirectives')
       return true;
     }
   }]);
+})(window, window.angular);
