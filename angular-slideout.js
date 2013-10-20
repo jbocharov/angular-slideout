@@ -12,7 +12,7 @@
   *   <slideout-main-content></slideout-main-content>
   * </slideout-container>
   */
-angular.module('slideoutDirectives', ['ng'])
+angular.module('ngSlideout', ['ng'])
   .directive('slideoutContainer', ['SlideoutRegistryService',
     function (SlideoutRegistryService) {
     return {
