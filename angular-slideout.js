@@ -16,12 +16,13 @@ angular.module('ngSlideout', ['ng'])
   .directive('slideoutContainer', ['SlideoutRegistryService',
     function (SlideoutRegistryService) {
     return {
-      template: '<div class="slideout-container" ng-transclude></div>',
+      template: '<div class="{{ slideoutClass }}" ng-transclude></div>',
       transclude: true,
       replace: true,
-      restrict: 'E',
+      restrict: 'AE',
       scope: {
-        name : '@',
+        slideoutClass: '@',
+        name : '@slideoutName',
         visibleClass: '@',
         visible: '@',
         sidebar: '@'
@@ -29,7 +30,11 @@ angular.module('ngSlideout', ['ng'])
       link: function postLink(scope, element, attrs) {
         scope.element = element;
 
-        attrs.$observe('name', function observeName(name) {
+        attrs.$observe('slideoutClass', function observeClass(cssClass) {
+          scope.slideoutClass = cssClass || 'slideout-container';
+        });
+
+        attrs.$observe('slideoutName', function observeName(name) {
           SlideoutRegistryService.register(name || '', scope);
         });
 
@@ -37,7 +42,7 @@ angular.module('ngSlideout', ['ng'])
           scope.visibleClass = visibleClass || 'active';
         });
 
-        attrs.$observe('visible', function observeVisible(visible) {
+        attrs.$observe('slideoutVisible', function observeVisible(visible) {
           var shouldBeVisible = isFlagAttributeOn(visible);
           scope.visible = shouldBeVisible;
         });
@@ -66,15 +71,21 @@ angular.module('ngSlideout', ['ng'])
   .directive('slideoutSidebar', ['SlideoutRegistryService',
     function (SlideoutRegistryService) {
     return {
-      template: '<div class="slideout-sidebar" ng-transclude></div>',
+      template: '<div class="{{ slideoutClass }}" ng-transclude></div>',
       transclude: true,
       replace: true,
-      restrict: 'E',
+      restrict: 'AE',
       scope: {
+        slideoutClass: '@',
         name : '@'
       },
       link: function postLink(scope, element, attrs) {
         scope.element = element;
+
+        attrs.$observe('slideoutClass', function observeClass(cssClass) {
+          scope.slideoutClass = cssClass || 'slideout-sidebar';
+        });
+
         attrs.$observe('name', function observeName(name) {
           SlideoutRegistryService.locate(name || '',
             function onSlideoutLocate(error, $slideoutScope) {
@@ -88,15 +99,19 @@ angular.module('ngSlideout', ['ng'])
   .directive('slideoutToggle', ['SlideoutRegistryService',
     function (SlideoutRegistryService) {
     return {
-      template: '<div class="slideout-toggle" ng-transclude></div>',
+      template: '<div class="{{ slideoutClass }}" ng-transclude></div>',
       transclude: true,
       replace: true,
-      restrict: 'E',
+      restrict: 'AE',
       scope: {
-        name : '@'
+        name : '@slideoutName'
       },
       link: function postLink(scope, element, attrs) {
-        attrs.$observe('name', function observeName(name) {
+        attrs.$observe('slideoutClass', function observeClass(cssClass) {
+          scope.slideoutClass = cssClass || 'slideout-toggle';
+        });
+
+        attrs.$observe('slideoutName', function observeName(name) {
           SlideoutRegistryService.locate(name || '',
             function onSlideoutLocate(error, $slideoutScope) {
             element.click(function clickSlideoutToggle(e) {
@@ -113,16 +128,20 @@ angular.module('ngSlideout', ['ng'])
   .directive('slideoutMainContent', ['SlideoutRegistryService',
     function (SlideoutRegistryService) {
     return {
-      template: '<div class="slideout-main-content" ng-transclude></div>',
+      template: '<div class="{{ slideoutClass }}" ng-transclude></div>',
       transclude: true,
       replace: true,
-      restrict: 'E',
+      restrict: 'AE',
       scope: {
-        name : '@'
+        name : '@slideoutName'
       },
       link: function postLink(scope, element, attrs) {
         scope.element = element;
-        attrs.$observe('name', function observeName(name) {
+        attrs.$observe('slideoutClass', function observeClass(cssClass) {
+          scope.slideoutClass = cssClass || 'slideout-main-content';
+        });
+
+        attrs.$observe('slideoutName', function observeName(name) {
           SlideoutRegistryService.locate(name,
             function onSlideoutLocate(error, $slideoutScope) {
             // TODO: this is future-proofing... take it out?
